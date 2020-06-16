@@ -1,27 +1,31 @@
-# TtIteam
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 9.1.8.
+# Angular Counter
 
-## Development server
+[DEMO LINK](https://seialek.github.io/test-task__iteam/)
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+## Поставленная задача
+**Angular 2+**
 
-## Code scaffolding
+Реализовать таймер, который подсчитывает время в формате «HH: MM: SS»
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+Таймер должен иметь следующие кнопки:
 
-## Build
+* «Start / Stop» - запуск / остановка отсчета времени,
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
+* «Wait» - с последующим быстрым нажатием (время между нажатиями не более 300 мс) таймер должен прекратить отсчет времени,
 
-## Running unit tests
+* «Reset» - сброс таймера на 0
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+Требование: используйте Observables в коде.
 
-## Running end-to-end tests
 
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
+## Description
 
-## Further help
+**Button: Start (Pause, Continue)**
+The first click starts the counter, after which the button text changed to **Pause**. If you click it again, the countdown will be paused (the button text will be changed to **Continue**), and it can be resumed with the next click.
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+**Button Wait**
+When the countdown does not go, the button is disabled. When a button is active, a double click (a pause between clicks of no more than 300 milliseconds) pauses the countdown (just like the first button).
+
+**Button Reset**
+The button is disabled while the timer is zero. When the timer is greater than zero, it stops and resets the timer.
