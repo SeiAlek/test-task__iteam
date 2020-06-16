@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { interval } from 'rxjs';
+import { interval, timer } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -12,19 +12,19 @@ export class AppComponent {
   isStarted = false;
 
   btnText: 'Start' | 'Pause' | 'Continue' = 'Start';
-  timer;
+  myTimer: any;
+  readyToWait = false;
 
   handleStart() {
     if (this.isStarted) {
-      this.timer.unsubscribe();
+      this.myTimer.unsubscribe();
       this.btnText = 'Continue';
       this.isStarted = false;
       return;
     }
 
-    this.timer = interval(1000).subscribe(value => {
+    this.myTimer = interval(1000).subscribe(value => {
       this.timerData += 1000;
-      console.log(value);
     });
 
     this.isStarted = true;
@@ -36,20 +36,30 @@ export class AppComponent {
       return;
     }
 
+    if (!this.readyToWait) {
+      this.readyToWait = true;
+      timer(300).subscribe(() => {
+        this.readyToWait = false;
+      });
+
+      return;
+    }
+
+
     this.btnText = 'Continue';
     this.isStarted = false;
-    this.timer.unsubscribe();
+    this.myTimer.unsubscribe();
   }
 
   handleReset() {
-    if (!this.timer) {
+    if (!this.myTimer) {
       return;
     }
 
     this.timerData = 0;
     this.isStarted = false;
     this.btnText = 'Start';
-    this.timer.unsubscribe();
+    this.myTimer.unsubscribe();
   }
 }
 
