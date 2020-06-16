@@ -9,17 +9,17 @@ import { interval, timer } from 'rxjs';
 export class AppComponent {
   title = 'Timer';
   timerData = 0;
-  isStarted = false;
+  isRun = false;
 
   btnText: 'Start' | 'Pause' | 'Continue' = 'Start';
   myTimer: any;
   readyToWait = false;
 
   handleStart() {
-    if (this.isStarted) {
+    if (this.isRun) {
       this.myTimer.unsubscribe();
       this.btnText = 'Continue';
-      this.isStarted = false;
+      this.isRun = false;
       return;
     }
 
@@ -27,12 +27,12 @@ export class AppComponent {
       this.timerData += 1000;
     });
 
-    this.isStarted = true;
+    this.isRun = true;
     this.btnText = 'Pause';
   }
 
   handlePause() {
-    if (!this.isStarted) {
+    if (!this.isRun) {
       return;
     }
 
@@ -45,9 +45,8 @@ export class AppComponent {
       return;
     }
 
-
     this.btnText = 'Continue';
-    this.isStarted = false;
+    this.isRun = false;
     this.myTimer.unsubscribe();
   }
 
@@ -57,7 +56,7 @@ export class AppComponent {
     }
 
     this.timerData = 0;
-    this.isStarted = false;
+    this.isRun = false;
     this.btnText = 'Start';
     this.myTimer.unsubscribe();
   }
