@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { interval, timer } from 'rxjs';
 
+type BtnText = 'Start' | 'Pause' | 'Continue';
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -8,15 +10,14 @@ import { interval, timer } from 'rxjs';
 })
 export class AppComponent {
   title = 'Timer';
+  btnText: BtnText = 'Start';
   timerData = 0;
   formattedTime = '00:00:00';
   isRun = false;
-
-  btnText: 'Start' | 'Pause' | 'Continue' = 'Start';
-  myTimer: any;
   readyToWait = false;
+  myTimer$: any;
 
-  formatTime(ms) {
+  formatTime(ms: number): string {
     const sec = Math.trunc(ms / 1000);
     const hours = Math.trunc(sec / 3600);
     const minutes = Math.trunc((sec - (hours * 3600)) / 60);
@@ -25,19 +26,19 @@ export class AppComponent {
     return `${this.addZero(hours)}:${this.addZero(minutes)}:${this.addZero(seconds)}`;
   }
 
-  addZero(num) {
-    return num < 10 ? `0${num}` : num;
+  addZero(num: number): string {
+    return num < 10 ? `0${num}` : `${num}`;
   }
 
-  handleStart() {
+  handleStart(): void {
     if (this.isRun) {
-      this.myTimer.unsubscribe();
+      this.myTimer$.unsubscribe();
       this.btnText = 'Continue';
       this.isRun = false;
       return;
     }
 
-    this.myTimer = interval(1000).subscribe(value => {
+    this.myTimer$ = interval(1000).subscribe(value => {
       this.timerData += 1000;
       this.formattedTime = this.formatTime(this.timerData);
     });
@@ -46,7 +47,7 @@ export class AppComponent {
     this.btnText = 'Pause';
   }
 
-  handlePause() {
+  handlePause(): void {
     if (!this.isRun) {
       return;
     }
@@ -62,11 +63,11 @@ export class AppComponent {
 
     this.btnText = 'Continue';
     this.isRun = false;
-    this.myTimer.unsubscribe();
+    this.myTimer$.unsubscribe();
   }
 
-  handleReset() {
-    if (!this.myTimer) {
+  handleReset(): void {
+    if (!this.myTimer$) {
       return;
     }
 
@@ -74,7 +75,7 @@ export class AppComponent {
     this.formattedTime = '00:00:00';
     this.isRun = false;
     this.btnText = 'Start';
-    this.myTimer.unsubscribe();
+    this.myTimer$.unsubscribe();
   }
 }
 
